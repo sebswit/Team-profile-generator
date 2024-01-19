@@ -1,0 +1,22 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebswit/Team-profile-generator.git"
+  },
+  "author": "sebswit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sebswit/Team-profile-generator/issues"
+  },
+  "homepage": "https://github.com/sebswit/Team-profile-generator#readme",
+  "dependencies": {
+    "inquirer": "^9.2.12"
+  }
+}
