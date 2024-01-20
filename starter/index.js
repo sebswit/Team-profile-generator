@@ -63,24 +63,96 @@ const questions = [
     }
 ];
 
-// render
-function renderTeam() {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR)
+const promptRoleSpecificInfo = async (role) => {
+    switch (role) {
+        case "Manager":
+            return inquirer.prompt([
+                {
+                    type: "input",
+                    name: "officeNumber",
+                    message: "What is the manager's office number?",
+                    validate: answer => (answer !== "") ? true : "Please enter at least one character."
+                }
+            ]);
+
+        case "Engineer":
+            return inquirer.prompt([
+                {
+                    type: "input",
+                    name: "github",
+                    message: "What is the engineer's GitHub username?",
+                    validate: answer => (answer !== "") ? true : "Please enter at least one character."
+                }
+            ]);
+
+        case "Intern":
+            return inquirer.prompt([
+                {
+                    type: "input",
+                    name: "school",
+                    message: "What is the intern's school?",
+                    validate: answer => (answer !== "") ? true : "Please enter at least one character."
+                }
+            ]);
+
+        default:
+            return {};
     }
-    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
-}
-// output
-function outputTeam() {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR)
-    }
-    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
-}
-// write file
-function writeToFile(fileName, data) {
-    return fs.writeFileSync(path.join(process.cwd(), fileName), data)
 };
 
+const gatherTeamInfo = async () => {
+    let moreMembers = true;
+
+    while (moreMembers) {
+        const generalInfo = await inquirer.prompt(questions);
+        const roleSpecificInfo = await promptRoleSpecificInfo(generalInfo.role);
+
+        let member;
+
+        switch (generalInfo.role) {
+            case "Manager":
+                member = new Manager(generalInfo.name, generalInfo.id, generalInfo.email, roleSpecificInfo.officeNumber);
+                break;
+            case "Engineer":
+                member = new Engineer(generalInfo.name, generalInfo.id, generalInfo.email, roleSpecificInfo.github);
+                break;
+            case "Intern":
+                member = new Intern(generalInfo.name, generalInfo.id, generalInfo.email, roleSpecificInfo.school);
+                break;
+            default:
+                break;
+        }
+
+        teamMembers.push(member);
+
+        const { addAnother } = await inquirer.prompt({
+            type: "confirm",
+            name: "addAnother",
+            message: "Do you want to add another team member?",
+        });
+
+        moreMembers = addAnother;
+    }
+};
+
+const renderTeam = () => {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR);
+    }
+    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+};
+
+const init = async () => {
+    try {
+        await gatherTeamInfo();
+        renderTeam();
+        console.log("Team information has been successfully gathered and HTML file has been generated.");
+    } catch (error) {
+        console.error("Error occurred:", error);
+    }
+};
+
+// Call the initialization function
+init();
 
 
