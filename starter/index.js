@@ -73,7 +73,7 @@ const promptRoleSpecificInfo = async (role) => {
                     message: "What is the manager's office number?",
 
                     validate: answer => {
-                        console.log(answer)
+                        
                         const pass = answer.match(/^[0-9]+$/);
                         if (pass) {
                             return true;
@@ -114,13 +114,12 @@ const gatherTeamInfo = async () => {
     while (moreMembers) {
         const generalInfo = await inquirer.prompt(questions);
         const roleSpecificInfo = await promptRoleSpecificInfo(generalInfo.role);
-console.log(roleSpecificInfo);
+
         let member;
-console.log(generalInfo)
+
         switch (generalInfo.role) {
             case "Manager":
                 member = new Manager(generalInfo.name, generalInfo.id, generalInfo.email, roleSpecificInfo.officeNumber);
-                console.log(member)
                 break;
             case "Engineer":
                 member = new Engineer(generalInfo.name, generalInfo.id, generalInfo.email, roleSpecificInfo.github);

@@ -1,0 +1,33 @@
+.team-heading{
+    background-color: rgb(110, 49, 27);
+    color: rgb(235, 235, 221);
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 30px;
+   
+}
+.team-area{
+background-color: rgb(186,168,167)
+}
+.employee-card{
+    border: 1px solid black;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 50px;
+    background-color: rgb(255,217,198);
+}
+.card-header{
+    background-color: rgb(250,234,221);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+.card-body{
+    background-color: rgb(246,240,235);
+    border-radius: 5px;
+}
+list-group {
+    background-color: rgb(196,195,188);
+}
